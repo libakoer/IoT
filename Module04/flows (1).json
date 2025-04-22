@@ -1,0 +1,271 @@
+[
+    {
+        "id": "5d69aa5d164b2cb2",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7c560243f9cf2319",
+        "type": "mqtt in",
+        "z": "5d69aa5d164b2cb2",
+        "name": "",
+        "topic": "door/distance",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c5820fad8f51234",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "2e4e4809f1fd5ef6"
+            ]
+        ]
+    },
+    {
+        "id": "2e4e4809f1fd5ef6",
+        "type": "function",
+        "z": "5d69aa5d164b2cb2",
+        "name": "function 1",
+        "func": "let distance = parseInt(msg.payload);\nflow.set(\"distance\", distance);\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 200,
+        "wires": [
+            [
+                "5e96187a5d5157ae"
+            ]
+        ]
+    },
+    {
+        "id": "5a5a844e7276dab5",
+        "type": "mqtt in",
+        "z": "5d69aa5d164b2cb2",
+        "name": "",
+        "topic": "rfid/tag",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "032834e606b6998c",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 120,
+        "wires": [
+            [
+                "5e96187a5d5157ae"
+            ]
+        ]
+    },
+    {
+        "id": "5e96187a5d5157ae",
+        "type": "function",
+        "z": "5d69aa5d164b2cb2",
+        "name": "function 2",
+        "func": "// UID payload\nlet uid = msg.payload;\n\n// Loeme viimase kauguse\nlet distance = flow.get(\"distance\") || 100; // vaikimisi \"liiga kaugel\"\n\n// Loetavad UID-d\nconst allowedUIDs = [\"123456\", \"654321\"];\n\n// Kontroll: kas piisavalt lähedal?\nif (distance > 20) {\n    msg.payload = {\n        label: \"Liiga kaugel\",\n        background: \"gray\",\n        color: \"white\"\n    };\n    return msg;\n}\n\n// Kui lähedal, siis kontrollime UID\nif (allowedUIDs.includes(uid)) {\n    msg.payload = {\n        label: \"Access Granted\",\n        background: \"green\",\n        color: \"white\"\n    };\n} else {\n    msg.payload = {\n        label: \"Access Denied\",\n        background: \"red\",\n        color: \"white\"\n    };\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 160,
+        "wires": [
+            [
+                "35385a14dc011787",
+                "d7e2758b89305070"
+            ]
+        ]
+    },
+    {
+        "id": "35385a14dc011787",
+        "type": "ui_button",
+        "z": "5d69aa5d164b2cb2",
+        "name": "",
+        "group": "2476a18fdbcffc28",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Scan Tag",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 860,
+        "y": 160,
+        "wires": [
+            [
+                "f139c878d4ce2dc7"
+            ]
+        ]
+    },
+    {
+        "id": "f139c878d4ce2dc7",
+        "type": "function",
+        "z": "5d69aa5d164b2cb2",
+        "name": "function 3",
+        "func": "msg.payload = {\n    label: \"Scan Tag\",\n    background: \"#eeeeee\",\n    color: \"black\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 40,
+        "wires": [
+            [
+                "5e96187a5d5157ae"
+            ]
+        ]
+    },
+    {
+        "id": "d7e2758b89305070",
+        "type": "mqtt out",
+        "z": "5d69aa5d164b2cb2",
+        "name": "",
+        "topic": "door/open",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e185cd128673bb31",
+        "x": 780,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5c5820fad8f51234",
+        "type": "mqtt-broker",
+        "name": "door",
+        "broker": "192.168.14.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "door/distance",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "032834e606b6998c",
+        "type": "mqtt-broker",
+        "name": "rfid",
+        "broker": "192.168.14.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "rfid/tag",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "2476a18fdbcffc28",
+        "type": "ui_group",
+        "name": "RFID acess",
+        "tab": "487b14b2e93e4e7c",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e185cd128673bb31",
+        "type": "mqtt-broker",
+        "name": "door/open",
+        "broker": "192.168.14.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "door/open",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "487b14b2e93e4e7c",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
