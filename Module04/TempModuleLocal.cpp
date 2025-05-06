@@ -1,4 +1,4 @@
-Sends MQTT messages to the broker, reports the temperature.
+  Sends MQTT messages to the broker, reports the temperature.
 
 #include <Arduino.h>
 #include <OneWire.h>

@@ -1,0 +1,354 @@
+[
+    {
+        "id": "6d565a3c.17c584",
+        "type": "subflow",
+        "name": "Toggle",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "a6449155.3cdd8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 440,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "519f75ef.d3d8cc",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 440,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "d35764b.91d1e98",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 440,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "519f75ef.d3d8cc",
+                        "port": 0
+                    },
+                    {
+                        "id": "d35764b.91d1e98",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "option1",
+                "type": "bool",
+                "value": "true"
+            },
+            {
+                "name": "option2",
+                "type": "bool",
+                "value": "false"
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99",
+        "outputLabels": [
+            "Option 1",
+            "Option 2",
+            ""
+        ],
+        "icon": "node-red/switch.svg",
+        "status": {
+            "x": 440,
+            "y": 100,
+            "wires": [
+                {
+                    "id": "519f75ef.d3d8cc",
+                    "port": 0
+                },
+                {
+                    "id": "d35764b.91d1e98",
+                    "port": 0
+                }
+            ]
+        }
+    },
+    {
+        "id": "519f75ef.d3d8cc",
+        "type": "change",
+        "z": "6d565a3c.17c584",
+        "name": "on",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "option1",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "next",
+                "pt": "flow",
+                "to": "0",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d35764b.91d1e98",
+        "type": "change",
+        "z": "6d565a3c.17c584",
+        "name": "off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "off",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "next",
+                "pt": "flow",
+                "to": "off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a6449155.3cdd8",
+        "type": "switch",
+        "z": "6d565a3c.17c584",
+        "name": "",
+        "property": "next",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "519f75ef.d3d8cc"
+            ],
+            [
+                "d35764b.91d1e98"
+            ]
+        ]
+    },
+    {
+        "id": "923b7060db64e057",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "47976d21c6081f33",
+        "type": "mqtt in",
+        "z": "923b7060db64e057",
+        "name": "",
+        "topic": "node1/b1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 220,
+        "wires": [
+            [
+                "43f7e7d6c5c6221b"
+            ]
+        ]
+    },
+    {
+        "id": "3c287afceba6234f",
+        "type": "mqtt in",
+        "z": "923b7060db64e057",
+        "name": "",
+        "topic": "node2/b1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 280,
+        "wires": [
+            [
+                "a7f030c9ed70d5f1"
+            ]
+        ]
+    },
+    {
+        "id": "d3d7d410e0ff690d",
+        "type": "debug",
+        "z": "923b7060db64e057",
+        "name": "debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "a7f030c9ed70d5f1",
+        "type": "change",
+        "z": "923b7060db64e057",
+        "name": "OnOffParser",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "up",
+                "fromt": "str",
+                "to": "off",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "down",
+                "fromt": "str",
+                "to": "on",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 280,
+        "wires": [
+            [
+                "43f7e7d6c5c6221b"
+            ]
+        ]
+    },
+    {
+        "id": "8d79dc8a82124ea3",
+        "type": "mqtt out",
+        "z": "923b7060db64e057",
+        "name": "",
+        "topic": "node1/blue/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqtt_broker",
+        "x": 820,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "43f7e7d6c5c6221b",
+        "type": "subflow:6d565a3c.17c584",
+        "z": "923b7060db64e057",
+        "name": "2- Sided Lightswitch",
+        "x": 560,
+        "y": 260,
+        "wires": [
+            [
+                "8d79dc8a82124ea3"
+            ],
+            [
+                "d3d7d410e0ff690d"
+            ],
+            [
+                "8d79dc8a82124ea3"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_broker",
+        "type": "mqtt-broker",
+        "name": "Local Mosquitto",
+        "broker": "192.168.43.51",
+        "port": "1883",
+        "clientid": "nodered_led_control",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
