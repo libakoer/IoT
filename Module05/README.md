@@ -37,7 +37,7 @@ Did have to change the code a bit, so that the payload would match strings for o
 
 
 # Access control system
-Made the RFID code in iotempower and finally got it working. The lock system was done also, and used everything on the old node red, without changing the topics.
+Made the RFID and distance code in iotempower and finally got it working. The lock system was done also, and used everything on the old node red, without changing the topics.
 
 # Liquid measuring project for suitability in use on a boat
 - Scale - The scale we used could handle up to about 500g of weight on it, but it was accurate in weighing up to that point. Calibrated using tiny weights to make sure. Needs a stable base to give accurate readings, so a rocking boat would not suit it well.
